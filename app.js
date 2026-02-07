@@ -1,10 +1,16 @@
 const express = require("express");
 const app = express();
+const path = require("node:path");
 const PORT = 3000;
 
+const indexRouter = require("./routes/indexRouter");
+const newMessageRouter = require("./routes/newMessageRouter");
+
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => res.render("index"));
+app.get("/", indexRouter);
+app.get("/new", newMessageRouter);
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(err.statuCode || 500).send(err.message);
