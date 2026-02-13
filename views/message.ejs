@@ -2,4 +2,6 @@
   <p>Text: <%= message.text %></p>
   <p>User: <%= message.user %></p>
   <p>Date: <%= message.added.toLocaleDateString() %></p>
+  <a href="/">Home</a>
+  <a href="/messages/<%= message.id %>">Open</a>
 </li>
