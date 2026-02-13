@@ -6,6 +6,11 @@
     <title>Homepage</title>
   </head>
   <body>
-    <h1><%= message %></h1>
+    <h1>Index page</h1>
+    <ul>
+      <% messages.forEach(message => {%>
+      <%-  include("message", {message})%>
+      <% });  %>
+    </ul>
   </body>
 </html>
