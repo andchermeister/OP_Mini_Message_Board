@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const messageModel = require("../models/messageModel");
 
 const newMessageRouter = Router();
 
@@ -9,6 +10,7 @@ newMessageRouter.post("/", (req, res) => {
 
   console.log(author);
   console.log(message);
+  messageModel.addMessage(author, message);
 
   res.redirect("/");
 });
