@@ -2,21 +2,38 @@ const messageModel = require("../models/messageModel");
 const CustomNotFoundError = require("../errors/CustomNotFoundError");
 const db = require("../models/queries");
 
-async function getMessageById(req, res) {
+async function getAllMessages(req, res) {
+  const messages = messageModel.getAllMessages();
+  res.render("index", { messages });
+}
+
+async function renderForm(req, res) {
+  res.render("form");
+}
+
+async function postMessage(req, res) {
+  const { author, message } = req.body;
+
+  console.log(author);
+  console.log(message);
+  messageModel.addMessage(author, message);
+
+  res.redirect("/");
+}
+
+async function getMessageById(req, res, next) {
   const { messageId } = req.params;
-  let message;
+
   try {
-    message = messageModel.getMessageById(messageId);
-    await db.testConnection();
+    const message = messageModel.getMessageById(messageId);
 
     if (!message) {
       throw new CustomNotFoundError("Message not found");
     }
-  } catch (error) {
-    console.error("Error retrieving author:", error);
-    return res.status(500).send("Internal Server Error");
-  }
 
-  res.render("message", { message });
+    res.render("message", { message });
+  } catch (error) {
+    return next(error);
+  }
 }
-module.exports = { getMessageById };
+module.exports = { getAllMessages, renderForm, postMessage, getMessageById };
