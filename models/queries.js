@@ -15,4 +15,27 @@ async function getAllMessages() {
   return rows;
 }
 
-module.exports = {};
+async function createMessage(username, text) {
+  await pool.query(
+    "INSERT INTO messages (username, text, added) VALUES ($1, $2, CURRENT_DATE)",
+    [username, text],
+  );
+}
+
+async function getMessageById(messageId) {
+  const { rows } = await pool.query("SELECT * FROM messages WHERE id = $1", [
+    messageId,
+  ]);
+  return rows[0];
+}
+
+async function deleteMessage(messageId) {
+  await pool.query("DELETE FROM messages WHERE id = $1", [messageId]);
+}
+
+module.exports = {
+  getAllMessages,
+  createMessage,
+  getMessageById,
+  deleteMessage,
+};

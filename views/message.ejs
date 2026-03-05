@@ -1,7 +1,16 @@
 <li>
   <p>Text: <%= message.text %></p>
-  <p>User: <%= message.user %></p>
-  <p>Date: <%= message.added.toLocaleDateString() %></p>
+  <p>User: <%= message.username %></p>
+  <p>Date:
+    <% if (message.added) { %>
+      <%= new Date(message.added).toLocaleDateString() %>
+    <% } else { %>
+      No date
+    <% } %>
+  </p>
   <a href="/">Home</a>
   <a href="/messages/<%= message.id %>">Open</a>
+  <form action="/messages/<%= message.id %>/delete" method="POST" style="display:inline;">
+    <button type="submit">Delete message</button>
+  </form>
 </li>
